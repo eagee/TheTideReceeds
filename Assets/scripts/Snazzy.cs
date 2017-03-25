@@ -12,7 +12,7 @@ public class Snazzy : MonoBehaviour {
 	public Transform groundCheck;
 	float groundRadius = 0.2f;
 	public LayerMask whatIsGround;
-	public float JumpForce = 100000.0f; 
+	public float JumpForce = 50000.0f; 
 	private Rigidbody2D m_RigidBody;
 
 	void Awake() {
@@ -46,7 +46,7 @@ public class Snazzy : MonoBehaviour {
 		if (grounded && Input.GetKeyDown (KeyCode.Space))
 		{
 			m_anim.SetBool("Ground", false);
-			m_RigidBody.AddForce(new Vector2(0, JumpForce));
+			m_RigidBody.AddForce(new Vector2(0, JumpForce * Time.deltaTime));
 		}
 
 	}

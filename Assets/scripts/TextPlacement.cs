@@ -11,18 +11,28 @@ public class TextPlacement : MonoBehaviour {
 
 	string message;
 	Text textComp;
+    private DialogBackground[] dialogBackgrounds;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         Shown = false;
         textComp = GetComponent<Text>();
         message = textComp.text;
         textComp.text = "";
+
+        // Here we use FindObjectsOfType to get everything in the scene we added a "DialogBackground" script to.
+        dialogBackgrounds = FindObjectsOfType<DialogBackground>();
     }
 
 
     public void ShowText(string textToShow)
     {
+        // Here we loop through each DialogBackground we got from FindObjectsOfType above, and call show on it to make it appear.
+        foreach(DialogBackground bg in dialogBackgrounds)
+        {
+            bg.Show();
+        }
+        
         message = textToShow;
         StartCoroutine(TypeText());
     }
@@ -30,6 +40,11 @@ public class TextPlacement : MonoBehaviour {
     public void HideText()
     {
         textComp.text = "";
+        // Here we loop through each DialogBackground we got from FindObjectsOfType above, and call hide on it to make it disappear.
+        foreach (DialogBackground bg in dialogBackgrounds)
+        {
+            bg.Hide();
+        }
     }
 
 	IEnumerator TypeText () {
@@ -45,9 +60,11 @@ public class TextPlacement : MonoBehaviour {
 			//yield return new WaitForSeconds (letterPause);
 		}
 
-		while (Input.GetMouseButton(0) == false || Input.GetKeyDown(KeyCode.LeftControl)) {			
+		while (Input.GetMouseButton(0) == false && Input.GetKeyDown(KeyCode.Space) == false && Input.GetKeyDown(KeyCode.Return) == false) {
 			yield return null;
 		}
+
+        HideText();
 
         Shown = true;
 
