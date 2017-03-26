@@ -60,7 +60,7 @@ public class TextPlacement : MonoBehaviour {
 			//yield return new WaitForSeconds (letterPause);
 		}
 
-		while (Input.GetMouseButton(0) == false && Input.GetKeyDown(KeyCode.Space) == false && Input.GetKeyDown(KeyCode.Return) == false) {
+		while (Input.GetKeyDown(KeyCode.Space) == false && Input.GetKeyDown(KeyCode.Return) == false && Input.GetButton("Fire1") == false) {
 			yield return null;
 		}
 

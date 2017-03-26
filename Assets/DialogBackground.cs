@@ -7,9 +7,23 @@ public class DialogBackground : MonoBehaviour {
 
     private bool myBackgroundIsVisible = false;
 
-	// Use this for initialization
-	void Start () {
+    private float lastUpdateTime = 0f;
+    private float myDeltaTime = 0f;
+
+    // Use this for initialization
+    void Start () {
         myBackgroundIsVisible = false;
+        lastUpdateTime = 0f;
+        myDeltaTime = 0f;
+    }
+
+    void CalculateDeltaTime()
+    {
+        if (lastUpdateTime != 0)
+        {
+            myDeltaTime = Time.realtimeSinceStartup - lastUpdateTime;
+        }
+        lastUpdateTime = Time.realtimeSinceStartup;
     }
 
     private void SetAlpha(float value)
@@ -24,12 +38,12 @@ public class DialogBackground : MonoBehaviour {
         Color currentColor = GetComponent<Image>().color;
         if (currentColor.a < targetAlpha)
         {
-            currentColor.a += fadeSpeed;
+            currentColor.a += fadeSpeed * myDeltaTime;
             if (currentColor.a > targetAlpha) currentColor.a = targetAlpha;
         }
         else if (currentColor.a > targetAlpha)
         {
-            currentColor.a -= fadeSpeed;
+            currentColor.a -= fadeSpeed * myDeltaTime;
             if (currentColor.a < targetAlpha) currentColor.a = targetAlpha;
         }
         GetComponent<Image>().color = currentColor;
@@ -49,13 +63,14 @@ public class DialogBackground : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(myBackgroundIsVisible)
+        CalculateDeltaTime();
+        if (myBackgroundIsVisible)
         {
-            FadeAlphaToTarget(0.05f, 1.0f);
+            FadeAlphaToTarget(3f, 1.0f);
         }
         else
         {
-            FadeAlphaToTarget(0.05f, 0.0f);
+            FadeAlphaToTarget(3f, 0.0f);
         }
     }
 }
