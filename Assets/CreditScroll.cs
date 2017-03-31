@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CreditScroll : MonoBehaviour {
     public bool isLastCredit = false;
+    public bool isTitleCredit = false;
 
 	// Use this for initialization
 	void Start () {
@@ -14,9 +15,17 @@ public class CreditScroll : MonoBehaviour {
 	void Update () {
         Vector3 pos = transform.position;
         float speed = 3.0f;
-        if(!isLastCredit)
+        if(!isLastCredit && !isTitleCredit)
         {
             pos.y += speed * Time.deltaTime;
+        }
+        else if (isTitleCredit && (pos.y < 2))
+        {
+            pos.y += speed * Time.deltaTime;
+        }
+        else if (isTitleCredit && (pos.x > -3.5))
+        {
+            pos.x -= speed * Time.deltaTime;
         }
         else if(pos.y < 0)
         {
